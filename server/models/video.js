@@ -16,5 +16,18 @@ module.exports.getVideos = (callback) => {
 }
 
 module.exports.addVideo = (newVideo, callback) =>{
-Video.create(newVideo, callback)
+Video.create(newVideo, callback);
+}
+module.exports.getVideo = (id, callback)=>{
+    Video.findById(id, callback);
+
+}
+
+module.exports.updateVideo = (id, newUpdate,callback)=>{
+    Video.findByIdAndUpdate(id, newUpdate, callback);
+
+}
+
+module.exports.deleteVideo = (id, callback)=>{
+    Video.findByIdAndRemove(id, callback);
 }
