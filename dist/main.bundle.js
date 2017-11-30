@@ -53,8 +53,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var VideoComponent = (function () {
     function VideoComponent() {
+        this.videos = [
+            { "_id": "1", "title": "title1", "url": "url1", "description": "des1" },
+            { "_id": "2", "title": "title2", "url": "url2", "description": "des2" },
+            { "_id": "3", "title": "title3", "url": "url3", "description": "des3" },
+            { "_id": "4", "title": "title4", "url": "url4", "description": "des4" }
+        ];
     }
     VideoComponent.prototype.ngOnInit = function () {
+    };
+    VideoComponent.prototype.onSelectVideo = function (video) {
+        this.selectedVideo = video;
+        console.log(this.selectedVideo);
     };
     VideoComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_6" /* Component */])({
@@ -307,14 +317,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var VideoDetailComponent = (function () {
     function VideoDetailComponent() {
+        this.editTitle = false;
     }
     VideoDetailComponent.prototype.ngOnInit = function () {
+    };
+    VideoDetailComponent.prototype.ngOnChanges = function () {
+        this.editTitle = false;
+    };
+    VideoDetailComponent.prototype.onTitleClick = function () {
+        this.editTitle = true;
     };
     VideoDetailComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_6" /* Component */])({
             selector: 'video-detail',
             template: __webpack_require__(683),
-            styles: [__webpack_require__(677)]
+            styles: [__webpack_require__(677)],
+            inputs: ['video']
         }), 
         __metadata('design:paramtypes', [])
     ], VideoDetailComponent);
@@ -342,14 +360,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var VideoListComponent = (function () {
     function VideoListComponent() {
+        this.SelectVideo = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* EventEmitter */]();
     }
     VideoListComponent.prototype.ngOnInit = function () {
+    };
+    VideoListComponent.prototype.onselect = function (vid) {
+        this.SelectVideo.emit(vid);
     };
     VideoListComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_6" /* Component */])({
             selector: 'video-list',
             template: __webpack_require__(684),
-            styles: [__webpack_require__(678)]
+            styles: [__webpack_require__(678)],
+            inputs: ['videos'],
+            outputs: ['SelectVideo']
         }), 
         __metadata('design:paramtypes', [])
     ], VideoListComponent);
@@ -441,21 +465,21 @@ module.exports = "<nav class=\"navbar navbar-inverse\">\n  <div class=\"containe
 /***/ 683:
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  video-detail works!\n</p>\n"
+module.exports = "<div>\n    <form>\n        <div *ngIf=\"editTitle\"class=\"form-group\">\n            <input type=\"input\" class=\"form-control\" name=\"title\" required placeholder=\"title\" [(ngModel)]=\"video.title\">\n        </div>\n        <h3 *ngIf=\"!editTitle\" (click)=\"onTitleClick()\">{{video.title}}</h3>\n        <div class=\"form-group\">\n                <input type=\"input\" class=\"form-control\" name=\"url\" required placeholder=\"url\" [(ngModel)]=\"video.url\">\n            </div>\n            <div class=\"form-group\">\n                    <textarea  class=\"form-control\"  rows=\"5\"name=\"description\" required placeholder=\"description\" [(ngModel)]=\"video.description\"> </textarea>\n                </div>\n    </form>\n</div>"
 
 /***/ }),
 
 /***/ 684:
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  video-list works!\n</p>\n"
+module.exports = "<ul class=\"nav nav-pills nav-stacked\">\n  <li (click)=\"onselect(video)\" *ngFor =\"let video of videos\"><a>{{video.title}}</a></li>\n</ul>"
 
 /***/ }),
 
 /***/ 685:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n  <div class=\"col-sm-9\">\n    <video-detail></video-detail>\n  </div>\n  <div class=\"col-sm-3\">\n    <video-list></video-list>\n  </div>\n\n</div>"
+module.exports = "<div class=\"row\">\n  <div class=\"col-sm-9\">\n    <video-detail *ngIf=\"selectedVideo\" [video]=\"selectedVideo\"></video-detail>\n  </div>\n  <div class=\"col-sm-3\">\n    <video-list (SelectVideo)=\"onSelectVideo($event)\" [videos]=\"videos\"></video-list>\n  </div>\n\n</div>"
 
 /***/ }),
 
