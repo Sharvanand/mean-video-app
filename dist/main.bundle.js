@@ -1,6 +1,6 @@
 webpackJsonp([1,4],{
 
-/***/ 328:
+/***/ 329:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -24,8 +24,8 @@ var HomeComponent = (function () {
     HomeComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_6" /* Component */])({
             selector: 'app-home',
-            template: __webpack_require__(681),
-            styles: [__webpack_require__(675)]
+            template: __webpack_require__(683),
+            styles: [__webpack_require__(677)]
         }), 
         __metadata('design:paramtypes', [])
     ], HomeComponent);
@@ -35,11 +35,12 @@ var HomeComponent = (function () {
 
 /***/ }),
 
-/***/ 329:
+/***/ 330:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__video_service__ = __webpack_require__(519);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return VideoComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -51,36 +52,50 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var VideoComponent = (function () {
-    function VideoComponent() {
-        this.videos = [
-            { "_id": "1", "title": "title1", "url": "url1", "description": "des1" },
-            { "_id": "2", "title": "title2", "url": "url2", "description": "des2" },
-            { "_id": "3", "title": "title3", "url": "url3", "description": "des3" },
-            { "_id": "4", "title": "title4", "url": "url4", "description": "des4" }
-        ];
+    function VideoComponent(videoService) {
+        this.videoService = videoService;
+        this.hidenewVideo = true;
     }
     VideoComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.videoService.getVideos()
+            .subscribe(function (resVideoData) { return _this.videos = resVideoData; });
     };
     VideoComponent.prototype.onSelectVideo = function (video) {
         this.selectedVideo = video;
+        this.hidenewVideo = true;
         console.log(this.selectedVideo);
+    };
+    VideoComponent.prototype.onSubmitAddVideo = function (video) {
+        var _this = this;
+        this.videoService.addVideo(video)
+            .subscribe(function (resNewVideo) {
+            _this.videos.push(resNewVideo);
+            _this.selectedVideo = resNewVideo;
+        });
+    };
+    VideoComponent.prototype.newVideo = function () {
+        this.hidenewVideo = false;
     };
     VideoComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_6" /* Component */])({
             selector: 'app-video',
-            template: __webpack_require__(685),
-            styles: [__webpack_require__(679)]
+            template: __webpack_require__(687),
+            styles: [__webpack_require__(681)],
+            providers: [__WEBPACK_IMPORTED_MODULE_1__video_service__["a" /* VideoService */]]
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__video_service__["a" /* VideoService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__video_service__["a" /* VideoService */]) === 'function' && _a) || Object])
     ], VideoComponent);
     return VideoComponent;
+    var _a;
 }());
 //# sourceMappingURL=/Users/sharvanand/projects/mean-video-app/src/video.component.js.map
 
 /***/ }),
 
-/***/ 391:
+/***/ 392:
 /***/ (function(module, exports) {
 
 function webpackEmptyContext(req) {
@@ -89,19 +104,19 @@ function webpackEmptyContext(req) {
 webpackEmptyContext.keys = function() { return []; };
 webpackEmptyContext.resolve = webpackEmptyContext;
 module.exports = webpackEmptyContext;
-webpackEmptyContext.id = 391;
+webpackEmptyContext.id = 392;
 
 
 /***/ }),
 
-/***/ 392:
+/***/ 393:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(481);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__environments_environment__ = __webpack_require__(518);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__environments_environment__ = __webpack_require__(520);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__app_app_module__ = __webpack_require__(514);
 
 
@@ -122,8 +137,8 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dyna
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__(83);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(501);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__home_home_component__ = __webpack_require__(328);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__video_video_component__ = __webpack_require__(329);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__home_home_component__ = __webpack_require__(329);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__video_video_component__ = __webpack_require__(330);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppRoutingModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -187,8 +202,8 @@ var AppComponent = (function () {
     AppComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_6" /* Component */])({
             selector: 'app-root',
-            template: __webpack_require__(680),
-            styles: [__webpack_require__(674)]
+            template: __webpack_require__(682),
+            styles: [__webpack_require__(676)]
         }), 
         __metadata('design:paramtypes', [])
     ], AppComponent);
@@ -202,17 +217,18 @@ var AppComponent = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(147);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(103);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(471);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(477);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(472);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(306);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_component__ = __webpack_require__(513);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__navbar_navbar_component__ = __webpack_require__(515);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__home_home_component__ = __webpack_require__(328);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__video_video_component__ = __webpack_require__(329);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__home_home_component__ = __webpack_require__(329);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__video_video_component__ = __webpack_require__(330);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__app_routing_app_routing_module__ = __webpack_require__(512);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__video_list_video_list_component__ = __webpack_require__(517);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__video_detail_video_detail_component__ = __webpack_require__(516);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__video_list_video_list_component__ = __webpack_require__(518);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__video_detail_video_detail_component__ = __webpack_require__(517);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__safe_pipe__ = __webpack_require__(516);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -223,6 +239,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -245,7 +262,8 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_6__home_home_component__["a" /* HomeComponent */],
                 __WEBPACK_IMPORTED_MODULE_7__video_video_component__["a" /* VideoComponent */],
                 __WEBPACK_IMPORTED_MODULE_9__video_list_video_list_component__["a" /* VideoListComponent */],
-                __WEBPACK_IMPORTED_MODULE_10__video_detail_video_detail_component__["a" /* VideoDetailComponent */]
+                __WEBPACK_IMPORTED_MODULE_10__video_detail_video_detail_component__["a" /* VideoDetailComponent */],
+                __WEBPACK_IMPORTED_MODULE_11__safe_pipe__["a" /* SafePipe */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -288,8 +306,8 @@ var NavbarComponent = (function () {
     NavbarComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_6" /* Component */])({
             selector: 'app-navbar',
-            template: __webpack_require__(682),
-            styles: [__webpack_require__(676)]
+            template: __webpack_require__(684),
+            styles: [__webpack_require__(678)]
         }), 
         __metadata('design:paramtypes', [])
     ], NavbarComponent);
@@ -300,6 +318,44 @@ var NavbarComponent = (function () {
 /***/ }),
 
 /***/ 516:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__ = __webpack_require__(103);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SafePipe; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var SafePipe = (function () {
+    function SafePipe(sanitizer) {
+        this.sanitizer = sanitizer;
+    }
+    SafePipe.prototype.transform = function (url) {
+        return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    };
+    SafePipe = __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* Pipe */])({
+            name: 'safe'
+        }), 
+        __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["c" /* DomSanitizer */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["c" /* DomSanitizer */]) === 'function' && _a) || Object])
+    ], SafePipe);
+    return SafePipe;
+    var _a;
+}());
+//# sourceMappingURL=/Users/sharvanand/projects/mean-video-app/src/safe.pipe.js.map
+
+/***/ }),
+
+/***/ 517:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -330,8 +386,8 @@ var VideoDetailComponent = (function () {
     VideoDetailComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_6" /* Component */])({
             selector: 'video-detail',
-            template: __webpack_require__(683),
-            styles: [__webpack_require__(677)],
+            template: __webpack_require__(685),
+            styles: [__webpack_require__(679)],
             inputs: ['video']
         }), 
         __metadata('design:paramtypes', [])
@@ -342,7 +398,7 @@ var VideoDetailComponent = (function () {
 
 /***/ }),
 
-/***/ 517:
+/***/ 518:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -370,8 +426,8 @@ var VideoListComponent = (function () {
     VideoListComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_6" /* Component */])({
             selector: 'video-list',
-            template: __webpack_require__(684),
-            styles: [__webpack_require__(678)],
+            template: __webpack_require__(686),
+            styles: [__webpack_require__(680)],
             inputs: ['videos'],
             outputs: ['SelectVideo']
         }), 
@@ -383,7 +439,55 @@ var VideoListComponent = (function () {
 
 /***/ }),
 
-/***/ 518:
+/***/ 519:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(306);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(691);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return VideoService; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var VideoService = (function () {
+    function VideoService(http) {
+        this.http = http;
+        this.getUrl = "/api";
+        this.postUrl = "/api";
+    }
+    VideoService.prototype.getVideos = function () {
+        return this.http.get(this.getUrl)
+            .map(function (response) { return response.json(); });
+    };
+    VideoService.prototype.addVideo = function (video) {
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]({ 'Content-Type': 'application/json' });
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* RequestOptions */]({ headers: headers });
+        return this.http.post(this.postUrl, JSON.stringify(video), options)
+            .map(function (response) { return response.json(); });
+    };
+    VideoService = __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["p" /* Injectable */])(), 
+        __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* Http */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* Http */]) === 'function' && _a) || Object])
+    ], VideoService);
+    return VideoService;
+    var _a;
+}());
+//# sourceMappingURL=/Users/sharvanand/projects/mean-video-app/src/video.service.js.map
+
+/***/ }),
+
+/***/ 520:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -399,24 +503,10 @@ var environment = {
 
 /***/ }),
 
-/***/ 674:
-/***/ (function(module, exports) {
-
-module.exports = ""
-
-/***/ }),
-
-/***/ 675:
-/***/ (function(module, exports) {
-
-module.exports = ""
-
-/***/ }),
-
 /***/ 676:
 /***/ (function(module, exports) {
 
-module.exports = ".navbar {\n    border-radius:0;\n}\n"
+module.exports = ""
 
 /***/ }),
 
@@ -430,7 +520,7 @@ module.exports = ""
 /***/ 678:
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = ".navbar {\n    border-radius:0;\n}\n"
 
 /***/ }),
 
@@ -444,52 +534,66 @@ module.exports = ""
 /***/ 680:
 /***/ (function(module, exports) {
 
-module.exports = "<app-navbar></app-navbar>\n\n\n<div class=\"container\">\n    <router-outlet></router-outlet>\n\n</div>\n"
+module.exports = ""
 
 /***/ }),
 
 /***/ 681:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"jumbotron text-center\">\n  <h1> Video Application</h1>\n</div>"
+module.exports = ""
 
 /***/ }),
 
 /***/ 682:
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-inverse\">\n  <div class=\"container-fluid\">\n    <!-- Brand and toggle get grouped for better mobile display -->\n    <div class=\"navbar-header\">\n      <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bs-example-navbar-collapse-1\" aria-expanded=\"false\">\n        <span class=\"sr-only\">Toggle navigation</span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n      </button>\n      <a class=\"navbar-brand\" href=\"\">Video App</a>\n    </div>\n\n    <!-- Collect the nav links, forms, and other content for toggling -->\n    <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n      <ul class=\"nav navbar-nav pull-right\">\n        <li routerLinkActive=\"active\"><a routerLink= \"/home\" >Home</a></li>\n        <li routerLinkActive=\"active\"><a routerLink=\"/video\" >Video</a></li>\n        \n      </ul>\n      \n      \n    </div><!-- /.navbar-collapse -->\n  </div><!-- /.container-fluid -->\n</nav>"
+module.exports = "<app-navbar></app-navbar>\n\n\n<div class=\"container\">\n    <router-outlet></router-outlet>\n\n</div>\n"
 
 /***/ }),
 
 /***/ 683:
 /***/ (function(module, exports) {
 
-module.exports = "<div>\n    <form>\n        <div *ngIf=\"editTitle\"class=\"form-group\">\n            <input type=\"input\" class=\"form-control\" name=\"title\" required placeholder=\"title\" [(ngModel)]=\"video.title\">\n        </div>\n        <h3 *ngIf=\"!editTitle\" (click)=\"onTitleClick()\">{{video.title}}</h3>\n        <div class=\"form-group\">\n                <input type=\"input\" class=\"form-control\" name=\"url\" required placeholder=\"url\" [(ngModel)]=\"video.url\">\n            </div>\n            <div class=\"form-group\">\n                    <textarea  class=\"form-control\"  rows=\"5\"name=\"description\" required placeholder=\"description\" [(ngModel)]=\"video.description\"> </textarea>\n                </div>\n    </form>\n</div>"
+module.exports = "<div class=\"jumbotron text-center\">\n  <h1> Video Application</h1>\n</div>"
 
 /***/ }),
 
 /***/ 684:
 /***/ (function(module, exports) {
 
-module.exports = "<ul class=\"nav nav-pills nav-stacked\">\n  <li (click)=\"onselect(video)\" *ngFor =\"let video of videos\"><a>{{video.title}}</a></li>\n</ul>"
+module.exports = "<nav class=\"navbar navbar-inverse\">\n  <div class=\"container-fluid\">\n    <!-- Brand and toggle get grouped for better mobile display -->\n    <div class=\"navbar-header\">\n      <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bs-example-navbar-collapse-1\" aria-expanded=\"false\">\n        <span class=\"sr-only\">Toggle navigation</span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n      </button>\n      <a class=\"navbar-brand\" href=\"\">Video App</a>\n    </div>\n\n    <!-- Collect the nav links, forms, and other content for toggling -->\n    <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n      <ul class=\"nav navbar-nav pull-right\">\n        <li routerLinkActive=\"active\"><a routerLink= \"/home\" >Home</a></li>\n        <li routerLinkActive=\"active\"><a routerLink=\"/video\" >Video</a></li>\n        \n      </ul>\n      \n      \n    </div><!-- /.navbar-collapse -->\n  </div><!-- /.container-fluid -->\n</nav>"
 
 /***/ }),
 
 /***/ 685:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n  <div class=\"col-sm-9\">\n    <video-detail *ngIf=\"selectedVideo\" [video]=\"selectedVideo\"></video-detail>\n  </div>\n  <div class=\"col-sm-3\">\n    <video-list (SelectVideo)=\"onSelectVideo($event)\" [videos]=\"videos\"></video-list>\n  </div>\n\n</div>"
+module.exports = "<div>\n    <div>\n        <iframe width=\"100%\" height=\"400px\" [src]=\"video.url | safe\" target=\"_parent\" frameborder=\"1\"></iframe>\n    </div>\n    <form>\n        <div *ngIf=\"editTitle\"class=\"form-group\">\n            <input type=\"input\" class=\"form-control\" name=\"title\" required placeholder=\"title\" [(ngModel)]=\"video.title\">\n        </div>\n        <h3 *ngIf=\"!editTitle\" (click)=\"onTitleClick()\">{{video.title}}</h3>\n        <div class=\"form-group\">\n                <input type=\"input\" class=\"form-control\" name=\"url\" required placeholder=\"url\" [(ngModel)]=\"video.url\">\n            </div>\n            <div class=\"form-group\">\n                    <textarea  class=\"form-control\"  rows=\"5\"name=\"description\" required placeholder=\"description\" [(ngModel)]=\"video.description\"> </textarea>\n                </div>\n    </form>\n</div>"
 
 /***/ }),
 
-/***/ 720:
+/***/ 686:
+/***/ (function(module, exports) {
+
+module.exports = "<ul class=\"nav nav-pills nav-stacked\">\n  <li (click)=\"onselect(video)\" *ngFor =\"let video of videos\"><a>{{video.title}}</a></li>\n</ul>"
+
+/***/ }),
+
+/***/ 687:
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row\">\n  <div class=\"col-sm-9\">\n    <div *ngIf=\"!hidenewVideo\">\n      <form #form=\"ngForm\" (ngSubmit)=\"onSubmitAddVideo(form.value)\"class=\"well\">\n        <div class=\"form-group\">\n          <label>Title</label>\n          <input type=\"text\" class=\"form-control\" required name=\"title\" ngModel>\n          </div>\n          <div class=\"form-group\">\n              <label>Url</label>\n              <input type=\"text\" class=\"form-control\" required name=\"url\" ngModel>\n              </div>\n              <div class=\"form-group\">\n                  <label>Description</label>\n                  <input type=\"text\" class=\"form-control\" required name=\"description\" ngModel>\n                  </div>\n                  <button type=\"submit\" class=\"btn btn-success\">Save</button>\n        </form>\n    </div>\n    <video-detail *ngIf=\"selectedVideo && hidenewVideo\" [video]=\"selectedVideo\"></video-detail>\n  </div>\n  <div class=\"col-sm-3\">\n    <button (click)=\"newVideo()\" type=\"button\"  class=\"btn btn-success btn-block\">Add New Video</button>\n    <video-list (SelectVideo)=\"onSelectVideo($event)\" [videos]=\"videos\"></video-list>\n  </div>\n\n</div>"
+
+/***/ }),
+
+/***/ 723:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(392);
+module.exports = __webpack_require__(393);
 
 
 /***/ })
 
-},[720]);
+},[723]);
 //# sourceMappingURL=main.bundle.map
