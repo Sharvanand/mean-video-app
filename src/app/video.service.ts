@@ -9,6 +9,8 @@ export class VideoService {
 
   private getUrl = "/api";
   private postUrl = "/api";
+  private putUrl = "/api/";
+  private deleteUrl = "/api/";
 
   constructor(private http : Http) { }
 
@@ -23,6 +25,18 @@ export class VideoService {
     return this.http.post(this.postUrl,JSON.stringify(video),options)
     .map((response:Response) => response.json());
 
+  }
+  updateVideo(video: Video){
+    let headers = new Headers({'Content-Type':'application/json'});
+    let options = new RequestOptions({headers:headers});
+    return this.http.put(this.putUrl + video._id,JSON.stringify(video),options)
+    .map((response:Response) => response.json());
+
+  }
+  deleteVideo(video:Video){
+      return this.http.delete(this.deleteUrl + video._id)
+      .map((response:Response) => response.json());
+      
   }
 
 }

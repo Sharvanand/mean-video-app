@@ -76,6 +76,24 @@ var VideoComponent = (function () {
             _this.selectedVideo = resNewVideo;
         });
     };
+    VideoComponent.prototype.onUpdateVideoEvent = function (video) {
+        this.videoService.updateVideo(video)
+            .subscribe(function (resUpdatedVideo) { return video = resUpdatedVideo; });
+        this.selectedVideo = null;
+    };
+    VideoComponent.prototype.onDeleteVideoEvent = function (video) {
+        var videoArray = this.videos;
+        this.videoService.deleteVideo(video)
+            .subscribe(function (resDeletedVideo) {
+            for (var i = 0; i < videoArray.length; i++) {
+                if (videoArray[i]._id === video._id) {
+                    videoArray.splice(i, 1);
+                }
+            }
+        });
+        this.selectedVideo = null;
+    };
+    ;
     VideoComponent.prototype.newVideo = function () {
         this.hidenewVideo = false;
     };
@@ -374,6 +392,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var VideoDetailComponent = (function () {
     function VideoDetailComponent() {
         this.editTitle = false;
+        this.updateVideoEvent = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* EventEmitter */]();
+        this.deleteVideoEvent = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* EventEmitter */]();
     }
     VideoDetailComponent.prototype.ngOnInit = function () {
     };
@@ -383,12 +403,19 @@ var VideoDetailComponent = (function () {
     VideoDetailComponent.prototype.onTitleClick = function () {
         this.editTitle = true;
     };
+    VideoDetailComponent.prototype.updateVideo = function () {
+        this.updateVideoEvent.emit(this.video);
+    };
+    VideoDetailComponent.prototype.deleteVideo = function () {
+        this.deleteVideoEvent.emit(this.video);
+    };
     VideoDetailComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_6" /* Component */])({
             selector: 'video-detail',
             template: __webpack_require__(685),
             styles: [__webpack_require__(679)],
-            inputs: ['video']
+            inputs: ['video'],
+            outputs: ['updateVideoEvent', 'deleteVideoEvent']
         }), 
         __metadata('design:paramtypes', [])
     ], VideoDetailComponent);
@@ -465,6 +492,8 @@ var VideoService = (function () {
         this.http = http;
         this.getUrl = "/api";
         this.postUrl = "/api";
+        this.putUrl = "/api/";
+        this.deleteUrl = "/api/";
     }
     VideoService.prototype.getVideos = function () {
         return this.http.get(this.getUrl)
@@ -474,6 +503,16 @@ var VideoService = (function () {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]({ 'Content-Type': 'application/json' });
         var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* RequestOptions */]({ headers: headers });
         return this.http.post(this.postUrl, JSON.stringify(video), options)
+            .map(function (response) { return response.json(); });
+    };
+    VideoService.prototype.updateVideo = function (video) {
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]({ 'Content-Type': 'application/json' });
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* RequestOptions */]({ headers: headers });
+        return this.http.put(this.putUrl + video._id, JSON.stringify(video), options)
+            .map(function (response) { return response.json(); });
+    };
+    VideoService.prototype.deleteVideo = function (video) {
+        return this.http.delete(this.deleteUrl + video._id)
             .map(function (response) { return response.json(); });
     };
     VideoService = __decorate([
@@ -569,7 +608,7 @@ module.exports = "<nav class=\"navbar navbar-inverse\">\n  <div class=\"containe
 /***/ 685:
 /***/ (function(module, exports) {
 
-module.exports = "<div>\n    <div>\n        <iframe  X-Frame-Options: DENY width=\"100%\" height=\"400px\" [src]=\"video.url | safe\" target=\"_parent\" frameborder=\"1\"></iframe>\n    </div>\n    <form>\n        <div *ngIf=\"editTitle\"class=\"form-group\">\n            <input type=\"input\" class=\"form-control\" name=\"title\" required placeholder=\"title\" [(ngModel)]=\"video.title\">\n        </div>\n        <h3 *ngIf=\"!editTitle\" (click)=\"onTitleClick()\">{{video.title}}</h3>\n        <div class=\"form-group\">\n                <input type=\"input\" class=\"form-control\" name=\"url\" required placeholder=\"url\" [(ngModel)]=\"video.url\">\n            </div>\n            <div class=\"form-group\">\n                    <textarea  class=\"form-control\"  rows=\"5\"name=\"description\" required placeholder=\"description\" [(ngModel)]=\"video.description\"> </textarea>\n                </div>\n    </form>\n</div>"
+module.exports = "<div>\n    <div>\n        <iframe width=\"100%\" height=\"400px\" [src]=\"video.url | safe\" target=\"_parent\" frameborder=\"1\"></iframe>\n    </div>\n    <form>\n        <div *ngIf=\"editTitle\"class=\"form-group\">\n            <input type=\"input\" class=\"form-control\" name=\"title\" required placeholder=\"title\" [(ngModel)]=\"video.title\">\n        </div>\n        <h3 *ngIf=\"!editTitle\" (click)=\"onTitleClick()\">{{video.title}}</h3>\n        <div class=\"form-group\">\n                <input type=\"input\" class=\"form-control\" name=\"url\" required placeholder=\"url\" [(ngModel)]=\"video.url\">\n            </div>\n            <div class=\"form-group\">\n                    <textarea  class=\"form-control\"  rows=\"5\"name=\"description\" required placeholder=\"description\" [(ngModel)]=\"video.description\"> </textarea>\n                </div>\n                <button type=\"button\" (click)=\"updateVideo()\" class=\"btn btn-primary\">Update</button>\n                    <button type=\"button\" (click)=\"deleteVideo\" class=\"btn btn-danger\">Delete</button>\n    </form>\n</div>"
 
 /***/ }),
 
@@ -583,7 +622,7 @@ module.exports = "<ul class=\"nav nav-pills nav-stacked\">\n  <li (click)=\"onse
 /***/ 687:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n  <div class=\"col-sm-9\">\n    <div *ngIf=\"!hidenewVideo\">\n      <form #form=\"ngForm\" (ngSubmit)=\"onSubmitAddVideo(form.value)\"class=\"well\">\n        <div class=\"form-group\">\n          <label>Title</label>\n          <input type=\"text\" class=\"form-control\" required name=\"title\" ngModel>\n          </div>\n          <div class=\"form-group\">\n              <label>Url</label>\n              <input type=\"text\" class=\"form-control\" required name=\"url\" ngModel>\n              </div>\n              <div class=\"form-group\">\n                  <label>Description</label>\n                  <input type=\"text\" class=\"form-control\" required name=\"description\" ngModel>\n                  </div>\n                  <button type=\"submit\" class=\"btn btn-success\">Save</button>\n        </form>\n    </div>\n    <video-detail *ngIf=\"selectedVideo && hidenewVideo\" [video]=\"selectedVideo\"></video-detail>\n  </div>\n  <div class=\"col-sm-3\">\n    <button (click)=\"newVideo()\" type=\"button\"  class=\"btn btn-success btn-block\">Add New Video</button>\n    <video-list (SelectVideo)=\"onSelectVideo($event)\" [videos]=\"videos\"></video-list>\n  </div>\n\n</div>"
+module.exports = "<div class=\"row\">\n  <div class=\"col-sm-9\">\n    <div *ngIf=\"!hidenewVideo\">\n      <form #form=\"ngForm\" (ngSubmit)=\"onSubmitAddVideo(form.value)\"class=\"well\">\n        <div class=\"form-group\">\n          <label>Title</label>\n          <input type=\"text\" class=\"form-control\" required name=\"title\" ngModel>\n          </div>\n          <div class=\"form-group\">\n              <label>Url</label>\n              <input type=\"text\" class=\"form-control\" required name=\"url\" ngModel>\n              </div>\n              <div class=\"form-group\">\n                  <label>Description</label>\n                  <input type=\"text\" class=\"form-control\" required name=\"description\" ngModel>\n                  </div>\n                  <button type=\"submit\" class=\"btn btn-success\">Save</button>\n        </form>\n    </div>\n    <video-detail (updateVideoEvent)=\"onUpdateVideoEvent($event)\" (deleteVideoEvent)=\"onDeleteVideoEvent($event)\" *ngIf=\"selectedVideo && hidenewVideo\" [video]=\"selectedVideo\"></video-detail>\n  </div>\n  <div class=\"col-sm-3\">\n    <button (click)=\"newVideo()\" type=\"button\"  class=\"btn btn-success btn-block\">Add New Video</button>\n    <video-list (SelectVideo)=\"onSelectVideo($event)\" [videos]=\"videos\"></video-list>\n  </div>\n\n</div>"
 
 /***/ }),
 
